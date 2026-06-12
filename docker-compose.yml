@@ -1,0 +1,39 @@
+x-agent-base: &agent-base
+  restart: unless-stopped
+  init: true
+  tty: true
+  stdin_open: true
+  command: sleep infinity
+  security_opt:
+    - no-new-privileges:true
+  pids_limit: 512
+  mem_limit: 4g
+
+services:
+  codex:
+    <<: *agent-base
+    build:
+      context: .
+      args:
+        AGENT: codex
+    container_name: codex
+    volumes:
+      - codex_workspace:/workspace
+      - codex_home:/home/agent
+
+  claude:
+    <<: *agent-base
+    build:
+      context: .
+      args:
+        AGENT: claude
+    container_name: claude
+    volumes:
+      - claude_workspace:/workspace
+      - claude_home:/home/agent
+
+volumes:
+  codex_workspace:
+  codex_home:
+  claude_workspace:
+  claude_home:
