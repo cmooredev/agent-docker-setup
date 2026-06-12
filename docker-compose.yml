@@ -4,8 +4,6 @@ x-agent-base: &agent-base
   tty: true
   stdin_open: true
   command: sleep infinity
-  security_opt:
-    - no-new-privileges:true
   pids_limit: 512
   mem_limit: 4g
 
