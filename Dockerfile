@@ -11,10 +11,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 RUN useradd -m -d /home/agent -s /bin/bash agent \
-    && mkdir -p /workspace \
-    && chown agent:agent /workspace \
     && echo "agent ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/agent \
-    && chmod 0440 /etc/sudoers.d/agent
+    && chmod 0440 /etc/sudoers.d/agent \
+    && mkdir -p /workspace \
+    && chown agent:agent /workspace
 
 USER agent
 
@@ -29,8 +29,11 @@ RUN set -eux; \
       codex) \
         curl -fsSL https://chatgpt.com/codex/install.sh -o /tmp/install.sh; \
         CODEX_NON_INTERACTIVE=1 sh /tmp/install.sh ;; \
+      antigravity) \
+        curl -fsSL https://antigravity.google/cli/install.sh | bash ;; \
       *) \
-        echo "Invalid AGENT: use 'claude' or 'codex'" >&2; exit 1 ;; \
+        echo "Invalid AGENT: use 'claude', 'codex', or 'antigravity'" >&2; \
+        exit 1 ;; \
     esac; \
     rm -f /tmp/install.sh
 

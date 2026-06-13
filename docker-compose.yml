@@ -30,8 +30,21 @@ services:
       - claude_workspace:/workspace
       - claude_home:/home/agent
 
+  antigravity:
+    <<: *agent-base
+    build:
+      context: .
+      args:
+        AGENT: antigravity
+    container_name: antigravity
+    volumes:
+      - antigravity_workspace:/workspace
+      - antigravity_home:/home/agent
+
 volumes:
   codex_workspace:
   codex_home:
   claude_workspace:
   claude_home:
+  antigravity_workspace:
+  antigravity_home:
